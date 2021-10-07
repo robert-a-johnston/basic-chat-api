@@ -19,10 +19,15 @@ const io = new Server(server, {
 
 io.on('connection', (socket) => {
   console.log('socket id', socket.id)
-
-  socket.on('join_room', (roomId) => {
-    socket.join(roomId)
-    console.log(`User with id: ${socket.id} joined room: ${roomId}`)
+  // event of joining room named join_room from front end
+  socket.on('join_room', (roomData) => {
+    socket.join(roomData)
+    console.log(`Socket with id: ${socket.id} joined room: ${roomData}`)
+  })
+  // handles message data sent from server
+  socket.on('send_message', (messageData) => {
+    console.log('message data', messageData)
+    socket.to(messageData.room).emit('receive_message', messageData)
   })
 
   socket.on('disconnect', () =>{
