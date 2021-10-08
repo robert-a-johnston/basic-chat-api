@@ -26,7 +26,8 @@ io.on('connection', (socket) => {
   })
   // handles message data sent from server
   socket.on('send_message', (messageData) => {
-    console.log('message data', messageData)
+    console.log('message data from client', messageData)
+    // emits message data to front end to specific room
     socket.to(messageData.room).emit('receive_message', messageData)
   })
 
